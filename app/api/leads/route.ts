@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { LeadService } from '@/lib/services/leadService'
 import { createLeadSchema, leadFiltersSchema, formatZodErrors } from '@/lib/utils/validators'
+import { LeadStatus } from '@/types/lead'
 
 // GET /api/leads - List leads with filters
 export async function GET(request: NextRequest) {
@@ -21,7 +22,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '50')
 
     const filters = {
-      status: searchParams.get('status')?.split(','),
+      status: searchParams.get('status')?.split(',') as LeadStatus[] | undefined,
       assigned_to: searchParams.get('assigned_to') || undefined,
       tags: searchParams.get('tags')?.split(','),
       date_from: searchParams.get('date_from') || undefined,
