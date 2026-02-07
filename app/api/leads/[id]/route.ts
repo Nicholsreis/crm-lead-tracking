@@ -4,8 +4,9 @@ import { LeadService } from '@/lib/services/leadService'
 import { updateLeadSchema, formatZodErrors } from '@/lib/utils/validators'
 
 // GET /api/leads/[id] - Get lead by ID
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const supabase = await createClient()
     const {
       data: { user },
@@ -16,7 +17,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     }
 
     const leadService = new LeadService(supabase)
-    const lead = await leadService.getLead(params.id)
+    const lead = await leadService.getLead(id)
 
     if (!lead) {
       return NextResponse.json({ success: false, error: 'Lead not found' }, { status: 404 })
@@ -37,8 +38,9 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 // PATCH /api/leads/[id] - Update lead
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const supabase = await createClient()
     const {
       data: { user },
@@ -63,7 +65,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     }
 
     const leadService = new LeadService(supabase)
-    const lead = await leadService.updateLead(params.id, validation.data)
+    const lead = await leadService.updateLead(id, validation.data)
 
     return NextResponse.json({ success: true, data: lead })
   } catch (error) {
@@ -80,8 +82,9 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 }
 
 // DELETE /api/leads/[id] - Delete lead
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const supabase = await createClient()
     const {
       data: { user },
@@ -92,7 +95,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     }
 
     const leadService = new LeadService(supabase)
-    await leadService.deleteLead(params.id)
+    await leadService.deleteLead(id)
 
     return NextResponse.json({ success: true, message: 'Lead deleted successfully' })
   } catch (error) {
