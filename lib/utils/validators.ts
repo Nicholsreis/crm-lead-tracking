@@ -104,7 +104,7 @@ export function validateData<T>(schema: z.ZodSchema<T>, data: unknown): {
 
 // Helper function to format Zod errors
 export function formatZodErrors(errors: z.ZodError): string[] {
-  return errors.errors.map((err) => {
+  return errors.issues.map((err) => {
     const path = err.path.join('.')
     return path ? `${path}: ${err.message}` : err.message
   })
