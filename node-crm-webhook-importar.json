@@ -1,0 +1,36 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/webhook",
+        "authentication": "none",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer U5tQR4j9wOGYAyCD7nviuZ1BLkTNb8dc"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\n  \"phone\": $json.remoteJid ? $json.remoteJid.replace('@s.whatsapp.net', '') : '',\n  \"name\": $json.pushName || '',\n  \"message\": $json.message?.conversation || $json.message?.extendedTextMessage?.text || '',\n  \"timestamp\": new Date().toISOString(),\n  \"agent_response\": $json.output || '',\n  \"metadata\": {\n    \"interest\": $json.interest || '',\n    \"source\": \"whatsapp\"\n  }\n} }}",
+        "options": {}
+      },
+      "id": "enviar-lead-crm-2024",
+      "name": "Enviar Lead para CRM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        300
+      ]
+    }
+  ]
+}

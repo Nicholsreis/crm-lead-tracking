@@ -1,36 +1,127 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CRM Lead Tracking SaaS
 
-## Getting Started
+Sistema CRM/SaaS para rastreamento de leads em tempo real do "Mercantil Santa Paula - Atendimento Inicial".
 
-First, run the development server:
+## Stack Tecnológica
 
-```bash
+- **Frontend**: Next.js 14 (App Router) + TypeScript + Tailwind CSS
+- **Backend**: Next.js API Routes + Supabase
+- **Database**: Supabase (PostgreSQL)
+- **Real-time**: Supabase Realtime
+- **State Management**: React Query + Zustand
+- **Charts**: Recharts
+- **Testing**: Jest + fast-check + React Testing Library
+
+## Funcionalidades
+
+- ✅ Dashboard em tempo real com métricas
+- ✅ Captura automática de leads via webhook n8n
+- ✅ Gestão completa de leads com filtros avançados
+- ✅ Histórico de conversas e mensagens
+- ✅ Sistema de notificações em tempo real
+- ✅ Analytics e relatórios detalhados
+- ✅ Exportação CSV/Excel
+- ✅ Atribuição de leads para atendentes
+- ✅ Autenticação e segurança
+- ✅ Interface responsiva (mobile-first)
+
+## Setup
+
+### 1. Instalar dependências
+
+\`\`\`bash
+npm install
+\`\`\`
+
+### 2. Configurar variáveis de ambiente
+
+Copie `.env.example` para `.env.local` e preencha com suas credenciais:
+
+\`\`\`bash
+cp .env.example .env.local
+\`\`\`
+
+Variáveis necessárias:
+- `NEXT_PUBLIC_SUPABASE_URL`: URL do seu projeto Supabase
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Chave anônima do Supabase
+- `WEBHOOK_AUTH_TOKEN`: Token para autenticar webhooks do n8n
+
+### 3. Configurar banco de dados Supabase
+
+Execute o SQL schema localizado em `supabase/schema.sql` no seu projeto Supabase.
+
+### 4. Executar em desenvolvimento
+
+\`\`\`bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+\`\`\`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts Disponíveis
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Inicia servidor de desenvolvimento
+- `npm run build` - Build para produção
+- `npm start` - Inicia servidor de produção
+- `npm run lint` - Executa linter
+- `npm test` - Executa testes
+- `npm run test:watch` - Executa testes em modo watch
+- `npm run test:coverage` - Gera relatório de cobertura
+- `npm run type-check` - Verifica tipos TypeScript
+- `npm run format` - Formata código com Prettier
 
-## Learn More
+## Deploy na Vercel
 
-To learn more about Next.js, take a look at the following resources:
+1. Conecte seu repositório Git à Vercel
+2. Configure as variáveis de ambiente no painel da Vercel
+3. Deploy automático a cada push
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Estrutura do Projeto
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+\`\`\`
+crm-lead-tracking/
+├── app/                    # Next.js App Router
+│   ├── (auth)/            # Rotas de autenticação
+│   ├── (dashboard)/       # Rotas do dashboard
+│   └── api/               # API Routes
+├── components/            # Componentes React
+│   ├── dashboard/        # Componentes do dashboard
+│   ├── leads/            # Componentes de leads
+│   ├── analytics/        # Componentes de analytics
+│   ├── ui/               # Componentes UI base
+│   └── layout/           # Componentes de layout
+├── lib/                   # Bibliotecas e utilitários
+│   ├── supabase/         # Configuração Supabase
+│   ├── hooks/            # Custom React hooks
+│   ├── services/         # Services (API calls)
+│   ├── stores/           # Zustand stores
+│   └── utils/            # Funções utilitárias
+└── types/                 # TypeScript types
+\`\`\`
 
-## Deploy on Vercel
+## Integração com n8n
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+O sistema recebe dados do workflow n8n via webhook:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Endpoint**: `POST /api/webhook`
+
+**Payload**:
+\`\`\`json
+{
+  "phone": "+5511999999999",
+  "name": "João Silva",
+  "message": "Olá, gostaria de informações",
+  "timestamp": "2026-02-07T19:00:00Z",
+  "agent_response": "Resposta do AI Agent",
+  "tool_used": "recado",
+  "media": {
+    "type": "image",
+    "url": "https://..."
+  },
+  "metadata": {}
+}
+\`\`\`
+
+## Licença
+
+Proprietary - Mercantil Santa Paula

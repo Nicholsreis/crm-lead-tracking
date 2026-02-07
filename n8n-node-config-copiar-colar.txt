@@ -1,0 +1,59 @@
+===========================================
+CONFIGURAÇÃO DO NODE HTTP REQUEST - CRM
+===========================================
+
+📋 COPIE E COLE ESTAS CONFIGURAÇÕES NO N8N:
+
+-------------------------------------------
+1. CONFIGURAÇÕES BÁSICAS
+-------------------------------------------
+Nome: Enviar Lead para CRM
+Method: POST
+URL: http://localhost:3000/api/webhook
+Authentication: None
+
+-------------------------------------------
+2. HEADERS (Adicione 2 headers)
+-------------------------------------------
+
+Header 1:
+  Name: Authorization
+  Value: Bearer U5tQR4j9wOGYAyCD7nviuZ1BLkTNb8dc
+
+Header 2:
+  Name: Content-Type
+  Value: application/json
+
+-------------------------------------------
+3. BODY (Cole no campo JSON)
+-------------------------------------------
+
+={{ {
+  "phone": $json.remoteJid ? $json.remoteJid.replace('@s.whatsapp.net', '') : '',
+  "name": $json.pushName || '',
+  "message": $json.message?.conversation || $json.message?.extendedTextMessage?.text || '',
+  "timestamp": new Date().toISOString(),
+  "agent_response": $json.output || '',
+  "metadata": {
+    "interest": $json.interest || '',
+    "source": "whatsapp"
+  }
+} }}
+
+-------------------------------------------
+4. CONEXÕES
+-------------------------------------------
+Entrada: AI Agent1
+Saída: SplitMessages
+
+===========================================
+PRONTO! SALVE E TESTE
+===========================================
+
+🧪 Para testar:
+1. Envie uma mensagem no WhatsApp
+2. Verifique no Supabase se o lead foi criado
+3. Veja os logs no terminal do dev server
+
+💡 Dica: Se der erro 401, verifique o token no header Authorization
+💡 Dica: Se der erro 400, verifique o mapeamento dos campos no JSON
