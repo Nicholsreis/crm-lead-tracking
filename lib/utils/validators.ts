@@ -22,7 +22,7 @@ export const createLeadSchema = z.object({
   name: z.string().min(2, 'Nome muito curto').max(255, 'Nome muito longo').optional(),
   source: z.string().min(1, 'Origem é obrigatória').max(100, 'Origem muito longa'),
   interest: z.string().max(500, 'Interesse muito longo').optional(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 })
 
 // Update lead schema
@@ -48,7 +48,7 @@ export const webhookPayloadSchema = z.object({
       url: z.string().url('URL de mídia inválida'),
     })
     .optional(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 })
 
 // Lead filters schema
